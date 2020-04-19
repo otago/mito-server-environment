@@ -1,0 +1,3 @@
+Don't cache Magento config files
+/var/www/src/app/etc/config.php
+/var/www/src/app/etc/env.php

@@ -1,0 +1,61 @@
+version: '2'
+services:
+  sftp:
+    container_name: sftp
+    image: atmoz/sftp:alpine-3.4
+    volumes:
+      - ./config/sftp/users.conf:/etc/sftp-users.conf:ro
+    networks:
+      - magento
+  php:
+    container_name: php
+    image: 8wiredigital/php:debian-7.2-1.1.2
+    volumes:
+      - ./config/phpfpm/common.php.ini:/etc/php.d/zzcommon.php.ini
+      - ./config/phpfpm/opcache.blacklist.txt:/etc/php.d/opcache.blacklist.txt
+      - ../../log/magento:/var/www/src/var/log:delegated
+      - ../../log/php:/var/log/php:delegated
+    cap_add:
+        - SYS_PTRACE
+    networks:
+      - magento
+  nginx:
+    container_name: nginx
+    image: 8wiredigital/nginx:1.0.0-beta3
+    volumes:
+      - ./config/nginx/magento.conf:/etc/nginx/templates/magento2.conf
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/fastcgi_params.conf:/etc/nginx/conf.d/fastcgi_params.conf
+      - ./config/nginx/security.conf:/etc/nginx/conf.d/security.conf
+      - ./config/nginx/badbots.conf:/etc/nginx/conf.d/badbots.conf
+      - ../../log/nginx:/var/log/nginx:delegated
+    networks:
+      - magento
+  varnish:
+    container_name: varnish
+    image: varnish:6.0
+    volumes:
+      - ./config/varnish/default.vcl:/etc/varnish/default.vcl
+    networks:
+       - magento
+    command: '-F -f /etc/varnish/default.vcl -a 0.0.0.0:80 -p http_resp_size=98304 -p http_resp_hdr_len=65536 -p workspace_backend=128k -s malloc,1G '
+  # blackfire:
+  #   container_name: blackfire
+  #   image: blackfire/blackfire
+  #   environment:
+  #     BLACKFIRE_SERVER_ID: $BLACKFIRE_SERVER_ID
+  #     BLACKFIRE_SERVER_TOKEN: $BLACKFIRE_SERVER_TOKEN
+  #   networks:
+  #     - magento
+  redis:
+    container_name: redis
+    image: redis:alpine
+    networks:
+      - magento
+  elasticsearch:
+    container_name: elasticsearch
+    image: 8wiredigital/elasticsearch:5-1.0.0
+    networks:
+      - magento
+networks:
+  magento:

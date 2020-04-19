@@ -1,0 +1,2 @@
+# run magento cronjob
+*/5 * * * * ! test -e /var/www/src/var/.maintenance.flag && /usr/local/bin/php /var/www/src/bin/magento cron:run >> /var/www/src/var/log/magento.cron.log

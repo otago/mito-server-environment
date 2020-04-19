@@ -1,0 +1,9 @@
+/home/www/resources-dev.mito.org.nz/log/**/*.log {
+    missingok
+    notifempty
+    compress
+    delaycompress
+    copytruncate
+    size 1M
+    create 0600 root root
+}
