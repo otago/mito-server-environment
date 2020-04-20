@@ -48,7 +48,7 @@ services:
       - nginx
     ports:
       - "80:80"
-    command: '-F -f /etc/varnish/default.vcl -a 0.0.0.0:80 -p http_resp_size=98304 -p http_resp_hdr_len=65536 -p workspace_backend=128k -s malloc,128M '
+    command: '-F -f /etc/varnish/default.vcl -p http_resp_size=98304 -p http_resp_hdr_len=65536 -p workspace_backend=128k -s malloc,128M '
     mem_limit: 128m
 
 networks:
