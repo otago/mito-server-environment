@@ -71,7 +71,7 @@ sub vcl_recv {
     }
 
     # Bypass shopping cart, checkout and search requests
-    if (req.url ~ "/checkout" || req.url ~ "/catalogsearch") {
+    if (req.url ~ "/checkout" || req.url ~ "/catalogsearch" || req.url ~ "/openid") {
         return (pass);
     }
 
