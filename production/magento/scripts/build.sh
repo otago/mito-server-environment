@@ -43,9 +43,9 @@ then
     echo "* * * * * /bin/sh ${BUILD_PATH}/${WEBSITE_ENV_TYPE}/${WEBSITE_SERVER_TYPE}/scripts/nfs-check.sh &>> ${LOG_PATH}/nfs-check.log" >> /var/spool/cron/root
 
     #create 
-    touch $WEBSITE_PATH/app/etc/env.php
-    echo "/mnt/web/media $WEBSITE_PATH/pub/media none defaults,bind,x-mount.mkdir 0 0" >> /etc/fstab
-    echo "/mnt/web/config/env.php $WEBSITE_PATH/app/etc/env.php none defaults,bind 0 0" >> /etc/fstab
+    #touch $WEBSITE_PATH/app/etc/env.php
+    #echo "/mnt/web/media $WEBSITE_PATH/pub/media none defaults,bind,x-mount.mkdir 0 0" >> /etc/fstab
+    #echo "/mnt/web/config/env.php $WEBSITE_PATH/app/etc/env.php none defaults,bind 0 0" >> /etc/fstab
 
 fi
 
