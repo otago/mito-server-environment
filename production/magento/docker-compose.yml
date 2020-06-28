@@ -18,17 +18,17 @@ services:
       # - /mnt/web/export:/var/www/mnt/magento/export
     restart: always
     mem_limit: 2048m
-  # cron:
-  #   extends:
-  #     file: ../../common/docker-compose.yml
-  #     service: php
-  #   container_name: cron
-  #   command: /usr/bin/cronstart
-  #   tty: true
-  #   volumes: *appvolumes
-  #   restart: always
-  #   ports:
-  #     - "9000:9000"
+  cron:
+    extends:
+      file: ../../common/docker-compose.yml
+      service: php
+    container_name: cron
+    command: /usr/bin/cronstart
+    tty: true
+    volumes: *appvolumes
+    restart: always
+    ports:
+      - "9000:9000"
   nginx:
     extends:
       file: ../../common/docker-compose.yml
