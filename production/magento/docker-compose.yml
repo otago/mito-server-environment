@@ -1,0 +1,61 @@
+version: '2'
+services:
+  php:
+    extends:
+      file: ../../common/docker-compose.yml
+      service: php
+    container_name: php
+    volumes: &appvolumes
+      - ../../../:/var/www/mnt
+      - ./config/phpfpm/env.php.ini:/etc/php.d/zzenv.php.ini
+      - ./config/phpfpm/www.conf:/etc/php-fpm.d/www.conf
+      - ./config/phpfpm/prepend.php:/var/www/env/prepend.php
+      - ./config/crontab/www:/tmp/crontab/www
+      - ./config/nginx/www.conf:/etc/nginx/sites-enabled/www.conf
+      # - /mnt/web/config/env.php:/var/www/mnt/magento/app/etc/env.php
+      # - /mnt/web/media:/var/www/mnt/magento/pub/media
+      # - /mnt/web/sitemap:/var/www/mnt/magento/sitemap
+      # - /mnt/web/export:/var/www/mnt/magento/export
+    restart: always
+    mem_limit: 2048m
+  # cron:
+  #   extends:
+  #     file: ../../common/docker-compose.yml
+  #     service: php
+  #   container_name: cron
+  #   command: /usr/bin/cronstart
+  #   tty: true
+  #   volumes: *appvolumes
+  #   restart: always
+  #   ports:
+  #     - "9000:9000"
+  nginx:
+    extends:
+      file: ../../common/docker-compose.yml
+      service: nginx
+    container_name: nginx
+    volumes: *appvolumes
+    restart: always
+    mem_limit: 128m
+    depends_on:
+      - php
+    ports:
+      - "80:80"
+      - "443:443"
+      #   environment:
+      # - VIRTUAL_PORT=8025
+      # - VIRTUAL_HOST=mailhog.performanceparts.docker
+      # - HTTPS_METHOD=noredirect 
+      
+  varnish:
+    extends:
+      file: ../../common/docker-compose.yml
+      service: varnish
+    container_name: varnish
+    restart: always
+    depends_on:
+      - nginx
+
+  #   command: '-F -f /etc/varnish/default.vcl -a 0.0.0.0:80 -p http_resp_size=98304 -p http_resp_hdr_len=65536 -p workspace_backend=128k -s malloc,1024M '
+networks:
+  magento:

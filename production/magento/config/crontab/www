@@ -1,0 +1,5 @@
+# run magento cronjob
+* * * * * ! test -e /var/www/src/var/.maintenance.flag && /usr/local/bin/php /var/www/src/bin/magento cron:run >> /var/www/src/var/log/magento.cron.log
+
+# run page primer crawler
+#*/5 * * * * ! test -e /var/www/src/var/.maintenance.flag && /usr/local/bin/php /var/www/src/bin/magento primer:crawler:run --max-run-time 240 --when-complete stop >> /var/www/src/var/log/primer.log
