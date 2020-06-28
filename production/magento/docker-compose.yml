@@ -6,7 +6,7 @@ services:
       service: php
     container_name: php
     volumes: &appvolumes
-      - ../../../:/var/www/mnt
+      - ../../../magento:/var/www/src
       - ./config/phpfpm/env.php.ini:/etc/php.d/zzenv.php.ini
       - ./config/phpfpm/www.conf:/etc/php-fpm.d/www.conf
       - ./config/phpfpm/prepend.php:/var/www/env/prepend.php
