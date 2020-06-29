@@ -13,9 +13,9 @@ services:
       - ./config/crontab/www:/tmp/crontab/www
       - ./config/nginx/www.conf:/etc/nginx/sites-enabled/www.conf
       - /mnt/web/config/env.php:/var/www/src/app/etc/env.php
-      # - /mnt/web/media:/var/www/mnt/magento/pub/media
-      # - /mnt/web/sitemap:/var/www/mnt/magento/sitemap
-      # - /mnt/web/export:/var/www/mnt/magento/export
+      - /mnt/web/media:/var/www/mnt/magento/pub/media
+      - /mnt/web/sitemap:/var/www/mnt/magento/sitemap
+      - /mnt/web/export:/var/www/mnt/magento/export
     restart: always
     mem_limit: 2048m
   cron:
